@@ -14,3 +14,6 @@ obj/
 
 # Docker cache
 *.cache
+
+appsettings*.local.json
+ef.ps1

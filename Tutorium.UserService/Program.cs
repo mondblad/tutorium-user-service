@@ -1,4 +1,13 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.EntityFrameworkCore;
+using Tutorium.UserService.Api.GrpcServices;
+using Tutorium.UserService.Infrastructure.Data;
+using Tutorium.UserService.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
+
+ConfigureAppSettings(builder);
+ConfigureServices(builder);
 
 builder.Services.AddCors(options =>
 {
@@ -11,28 +20,76 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Add services to the container.
+builder.WebHost.ConfigureKestrel(options =>
+{
+    // REST
+    options.ListenLocalhost(8002, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http1;
+    });
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    // gRPC
+    options.ListenLocalhost(8502, listenOptions =>
+    {
+        listenOptions.Protocols = HttpProtocols.Http2;
+        listenOptions.UseHttps();
+    });
+});
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+ConfigureApp(app);
 
 app.Run();
+
+#region Setup Helpers
+
+void ConfigureServices(WebApplicationBuilder builder)
+{
+    builder.Services.AddControllers();
+    builder.Services.AddGrpc();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+
+    var connectionString = builder.Configuration.GetConnectionString("DbConnection");
+    builder.Services.AddDbContext<PgContext>(options => options.UseNpgsql(connectionString));
+
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+}
+
+void ConfigureAppSettings(WebApplicationBuilder builder)
+{
+    builder.Configuration
+       .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+       .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true);
+
+    if (builder.Environment.IsDevelopment())
+        builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
+
+    builder.Configuration.AddEnvironmentVariables();
+}
+
+void ConfigureApp(WebApplication app)
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<PgContext>();
+        db.Database.Migrate(); // применяет все миграции, если их нет
+    }
+
+    app.UseCors("AllowFrontend");
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.MapGrpcService<UserGrpcService>();
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+    app.MapControllers();
+}
+
+#endregion Setup Helpers
