@@ -34,7 +34,6 @@ namespace Tutorium.UserService.Infrastructure.Tutorium.UserService.Infrastructur
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")

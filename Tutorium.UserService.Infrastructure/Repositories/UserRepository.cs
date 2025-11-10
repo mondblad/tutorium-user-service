@@ -29,9 +29,7 @@ namespace Tutorium.UserService.Infrastructure.Repositories
         public async Task<User> AddAsync(string email, string password)
         {
             var user = new User() { Email = email };
-
-            if (!string.IsNullOrEmpty(password))
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
+            user.PasswordHash = !string.IsNullOrEmpty(password) ? BCrypt.Net.BCrypt.HashPassword(password) : null;
 
             var entry = await _context.Users.AddAsync(user);
 

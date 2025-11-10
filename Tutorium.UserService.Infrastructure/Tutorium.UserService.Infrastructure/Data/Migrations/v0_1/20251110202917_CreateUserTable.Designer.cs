@@ -11,7 +11,7 @@ using Tutorium.UserService.Infrastructure.Data;
 namespace Tutorium.UserService.Infrastructure.Tutorium.UserService.Infrastructure.Data.Migrations.v0_1
 {
     [DbContext(typeof(PgContext))]
-    [Migration("20251110195933_CreateUserTable")]
+    [Migration("20251110202917_CreateUserTable")]
     partial class CreateUserTable
     {
         /// <inheritdoc />
@@ -37,7 +37,6 @@ namespace Tutorium.UserService.Infrastructure.Tutorium.UserService.Infrastructur
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
