@@ -13,9 +13,14 @@ namespace Tutorium.UserService.Infrastructure.Repositories
             _context = context;
         }
 
+        public async Task<User?> GetUserByEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(t => t.Email == email);
+        }
+
         public async Task<User?> GetUserByEmailAndPas(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(t => t.Email == email);
+            /*var user = await _context.Users.FirstOrDefaultAsync(t => t.Email == email);
             
             if (user == null)
                 return null;
@@ -23,22 +28,21 @@ namespace Tutorium.UserService.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(password))
                 return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash) ? user : null;
 
-            return user;
+            return user;*/
+
+            return new User();
         }
 
         public async Task<User> AddAsync(string email, string password)
         {
-            var user = new User() { Email = email };
+            /*var user = new User() { Email = email };
             user.PasswordHash = !string.IsNullOrEmpty(password) ? BCrypt.Net.BCrypt.HashPassword(password) : null;
 
             var entry = await _context.Users.AddAsync(user);
 
-            return entry.Entity;
-        }
+            return entry.Entity;*/
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
+            return new User();
         }
     }
 }

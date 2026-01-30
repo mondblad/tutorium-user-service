@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Tutorium.Shared.Utils.Controllers;
 
 namespace Tutorium.UserService.Api.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class InfoController : ControllerBase
+    public class InfoController : BaseController
     {
         /// <summary>
         /// Получение информации
