@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
-using Tutorium.UserService.Api.GrpcServices;
+using Tutorium.UserService.Core.Users.Abstractions;
+using Tutorium.UserService.Grpc;
 using Tutorium.UserService.Infrastructure.Data;
 using Tutorium.UserService.Infrastructure.Repositories;
 
@@ -18,22 +18,6 @@ builder.Services.AddCors(options =>
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
-});
-
-builder.WebHost.ConfigureKestrel(options =>
-{
-    // REST
-    options.ListenLocalhost(8002, listenOptions =>
-    {
-        listenOptions.Protocols = HttpProtocols.Http1;
-    });
-
-    // gRPC
-    options.ListenLocalhost(8502, listenOptions =>
-    {
-        listenOptions.Protocols = HttpProtocols.Http2;
-        listenOptions.UseHttps();
-    });
 });
 
 var app = builder.Build();
@@ -86,7 +70,7 @@ void ConfigureApp(WebApplication app)
         app.UseSwaggerUI();
     }
 
-    app.MapGrpcService<UserGrpcService>();
+    app.MapGrpcService<UserGrcpServer>();
     app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();

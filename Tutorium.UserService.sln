@@ -13,6 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorium.UserService.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorium.Shared", "Tutorium.Shared\Tutorium.Shared.csproj", "{6CB0BFCC-F9F6-4CB4-9123-5D8DB5D55C71}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutorium.UserService.Grpc", "Tutorium.UserService.Grpc\Tutorium.UserService.Grpc.csproj", "{0EF6BF03-24C6-4B32-886A-06B18703784D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorium.GrpcContracts", "Tutorium.GrpcContracts", "{4186DB92-688B-4FE5-BE79-446DD967BB70}"
+	ProjectSection(SolutionItems) = preProject
+		Tutorium.GrpcContracts\notification.proto = Tutorium.GrpcContracts\notification.proto
+		Tutorium.GrpcContracts\user.proto = Tutorium.GrpcContracts\user.proto
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +47,10 @@ Global
 		{6CB0BFCC-F9F6-4CB4-9123-5D8DB5D55C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CB0BFCC-F9F6-4CB4-9123-5D8DB5D55C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB0BFCC-F9F6-4CB4-9123-5D8DB5D55C71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EF6BF03-24C6-4B32-886A-06B18703784D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EF6BF03-24C6-4B32-886A-06B18703784D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EF6BF03-24C6-4B32-886A-06B18703784D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EF6BF03-24C6-4B32-886A-06B18703784D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

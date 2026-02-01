@@ -1,5 +1,6 @@
 ﻿using Tutorium.UserService.Infrastructure.Data;
-using Tutorium.UserService.Core.Models;
+using Tutorium.UserService.Core.Users.Abstractions;
+using Tutorium.UserService.Core.Users.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tutorium.UserService.Infrastructure.Repositories
@@ -13,31 +14,14 @@ namespace Tutorium.UserService.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User?> GetUserByEmailAndPas(string email, string password)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(t => t.Email == email);
-            
-            if (user == null)
-                return null;
-
-            if (!string.IsNullOrEmpty(password))
-                return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash) ? user : null;
-
-            return user;
+            return await _context.Users.FirstOrDefaultAsync(t => t.Email == email);
         }
 
-        public async Task<User> AddAsync(string email, string password)
+        public async Task CreateUserAsync(User newUser)
         {
-            var user = new User() { Email = email };
-            user.PasswordHash = !string.IsNullOrEmpty(password) ? BCrypt.Net.BCrypt.HashPassword(password) : null;
-
-            var entry = await _context.Users.AddAsync(user);
-
-            return entry.Entity;
-        }
-
-        public async Task SaveChangesAsync()
-        {
+            _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
         }
     }

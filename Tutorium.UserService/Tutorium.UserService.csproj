@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Tutorium.UserService.Api\Tutorium.UserService.Api.csproj" />
+    <ProjectReference Include="..\Tutorium.UserService.Grpc\Tutorium.UserService.Grpc.csproj" />
     <ProjectReference Include="..\Tutorium.UserService.Infrastructure\Tutorium.UserService.Infrastructure.csproj" />
   </ItemGroup>
 </Project>
