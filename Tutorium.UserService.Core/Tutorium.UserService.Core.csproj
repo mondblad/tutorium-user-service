@@ -10,8 +10,4 @@
     <ProjectReference Include="..\Tutorium.Shared\Tutorium.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="User\Models\" />
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tutorium.UserService.Core.Models;
+using Tutorium.UserService.Core.Users.Models;
 
 namespace Tutorium.UserService.Infrastructure.Data
 {

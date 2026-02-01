@@ -1,5 +1,6 @@
 ﻿using Tutorium.Shared.Utils.EntityFramework.Attributes;
 using Tutorium.Shared.Utils.BaseModel;
+using Tutorium.UserService.Core.Users.Models;
 
 namespace Tutorium.UserService.Core.Models
 {
@@ -7,14 +8,6 @@ namespace Tutorium.UserService.Core.Models
         EmailPassword = 0,
         Google = 1,
         Yandex = 2 
-    }
-
-    public class User : BaseModelWithSoftDelete
-    {
-        public string Email { get; set; } = null!;
-
-        private readonly List<AuthCredential> _credentials = new();
-        public IReadOnlyCollection<AuthCredential> Credentials => _credentials.AsReadOnly();
     }
 
     [SeparateTableAttribute]

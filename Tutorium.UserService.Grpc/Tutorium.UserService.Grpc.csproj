@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\Tutorium.Shared\protos\user.proto" GrpcServices="Server" />
+    <Protobuf Include="..\Tutorium.GrpcContracts\user.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

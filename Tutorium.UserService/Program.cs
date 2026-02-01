@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
+using Tutorium.UserService.Core.Users.Abstractions;
 using Tutorium.UserService.Grpc;
 using Tutorium.UserService.Infrastructure.Data;
 using Tutorium.UserService.Infrastructure.Repositories;

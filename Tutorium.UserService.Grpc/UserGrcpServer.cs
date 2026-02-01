@@ -1,6 +1,8 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Tutorium.Grpc.User;
-using Tutorium.UserService.Infrastructure.Repositories;
+using Tutorium.UserService.Core.Users.Abstractions;
+using Tutorium.UserService.Core.Users.Models;
 using static Tutorium.Grpc.User.UserGrpc;
 
 namespace Tutorium.UserService.Grpc
@@ -14,11 +16,25 @@ namespace Tutorium.UserService.Grpc
             _userRepository = userRepository;
         }
 
-        public override async Task<UserExistsResponse> IsUserExists(UserExistsRequest request, ServerCallContext context)
+        public override async Task<IsUserExistsResponse> IsUserExists(IsUserExistsRequest request, ServerCallContext context)
         {
             var user = await _userRepository.GetUserByEmailAsync(request.Email);
 
-            return new UserExistsResponse() { Exists = user is not null };
+            return new IsUserExistsResponse() { Exists = user is not null };
+        }
+
+        public override async Task<Empty> CreateUser(CreateUserRequest request, ServerCallContext context)
+        {
+            var newUser = new User()
+            {
+                Email = request.Email,
+                PasswordHash = request.PasswordHash,
+                CreatedAt = request.CreatedAtUtc.ToDateTime(),
+            };
+
+            await _userRepository.CreateUserAsync(newUser);
+
+            return new Empty();
         }
     }
 }
