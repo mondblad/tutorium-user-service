@@ -23,7 +23,7 @@ namespace Tutorium.UserService.Grpc
             return new IsUserExistsResponse() { Exists = user is not null };
         }
 
-        public override async Task<Empty> CreateUser(CreateUserRequest request, ServerCallContext context)
+        public override async Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
             var newUser = new User()
             {
@@ -34,7 +34,7 @@ namespace Tutorium.UserService.Grpc
 
             await _userRepository.CreateUserAsync(newUser);
 
-            return new Empty();
+            return new CreateUserResponse() { UserId = newUser.Id };
         }
     }
 }
